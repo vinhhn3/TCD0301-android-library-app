@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -19,6 +20,9 @@ public class MainActivity extends AppCompatActivity {
 
     DatabaseHelper db;
     ArrayList<String> bookId, bookTitle, bookAuthor, bookPages;
+
+    CustomAdapter customAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,19 @@ public class MainActivity extends AppCompatActivity {
         bookTitle = new ArrayList<>();
         bookPages = new ArrayList<>();
         bookAuthor = new ArrayList<>();
+
+        storeDataInArrays();
+
+        customAdapter = new CustomAdapter(
+                MainActivity.this,
+                bookId,
+                bookTitle,
+                bookAuthor,
+                bookPages);
+
+        recyclerView.setAdapter(customAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+
     }
 
     void storeDataInArrays(){
