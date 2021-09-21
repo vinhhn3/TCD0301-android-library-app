@@ -1,6 +1,7 @@
 package com.example.tcd0301_book_library;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -17,15 +18,18 @@ import java.util.ArrayList;
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
 
     private Context context;
+    Activity activity;
     private ArrayList bookId, bookTitle, bookAuthor, bookPages;
     int position;
 
     public CustomAdapter(Context context,
+                         Activity activity,
                          ArrayList bookId,
                          ArrayList bookTitle,
                          ArrayList bookAuthor,
                          ArrayList bookPages) {
         this.context = context;
+        this.activity = activity;
         this.bookId = bookId;
         this.bookTitle = bookTitle;
         this.bookAuthor = bookAuthor;
@@ -59,7 +63,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
                 intent.putExtra("author", String.valueOf(bookAuthor.get(position)));
                 intent.putExtra("pages", String.valueOf(bookPages.get(position)));
 
-                context.startActivity(intent);
+                activity.startActivityForResult(intent, 1);
             }
         });
     }
