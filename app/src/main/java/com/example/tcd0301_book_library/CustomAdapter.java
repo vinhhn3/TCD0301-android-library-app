@@ -1,9 +1,12 @@
 package com.example.tcd0301_book_library;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +18,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
     private Context context;
     private ArrayList bookId, bookTitle, bookAuthor, bookPages;
+    int position;
 
     public CustomAdapter(Context context,
                          ArrayList bookId,
@@ -38,11 +42,26 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CustomAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CustomAdapter.MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
+        this.position = position;
         holder.book_id_text.setText(String.valueOf(bookId.get(position)));
         holder.book_title_text.setText(String.valueOf(bookTitle.get(position)));
         holder.book_author_text.setText(String.valueOf(bookAuthor.get(position)));
         holder.book_pages_text.setText(String.valueOf(bookPages.get(position)));
+
+        holder.mainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, UpdateActivity.class);
+
+                intent.putExtra("id", String.valueOf(bookId.get(position)));
+                intent.putExtra("title", String.valueOf(bookTitle.get(position)));
+                intent.putExtra("author", String.valueOf(bookAuthor.get(position)));
+                intent.putExtra("pages", String.valueOf(bookPages.get(position)));
+
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -52,6 +71,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         TextView book_id_text, book_author_text, book_pages_text, book_title_text;
+        LinearLayout mainLayout;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -59,6 +79,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
             book_author_text = itemView.findViewById(R.id.book_author_text);
             book_pages_text = itemView.findViewById(R.id.book_pages_text);
             book_title_text = itemView.findViewById(R.id.book_title_text);
+            mainLayout = itemView.findViewById(R.id.mainLayout);
+
         }
     }
 }
