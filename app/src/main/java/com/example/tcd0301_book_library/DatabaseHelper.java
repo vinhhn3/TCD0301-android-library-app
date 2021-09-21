@@ -1,8 +1,10 @@
 package com.example.tcd0301_book_library;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private Context context;
@@ -35,5 +37,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
+    }
+
+    public void addBook(String title, String author, int pages){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_TITLE, title);
+        contentValues.put(COLUMN_AUTHOR, author);
+        contentValues.put(COLUMN_PAGES, pages);
+
+        long result = db.insert(TABLE_NAME,null, contentValues);
+
+        if (result == -1){
+            Toast.makeText(context, "INSERT: FAILED ...", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(context, "INSERT: DONE ...", Toast.LENGTH_SHORT).show();
+        }
     }
 }
