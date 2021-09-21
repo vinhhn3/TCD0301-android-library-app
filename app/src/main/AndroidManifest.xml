@@ -11,12 +11,11 @@
     <activity
       android:name=".AddActivity"
       android:exported="true"
-      android:label="Add new Book"
-      />
+      android:label="Add new Book" />
     <activity
       android:name=".MainActivity"
       android:exported="true"
-      android:label="Android Library App">
+      android:label="Main Activity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
 
