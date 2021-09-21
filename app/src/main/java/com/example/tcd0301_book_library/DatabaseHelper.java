@@ -57,6 +57,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public void updateBook(String row_id, String title, String author, String pages){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_AUTHOR, author);
+        contentValues.put(COLUMN_TITLE, title);
+        contentValues.put(COLUMN_PAGES, pages);
+
+        long result = db.update(
+                TABLE_NAME,
+                contentValues,
+                "_id = ?",
+                new String[]{row_id});
+
+        if (result == -1){
+            Toast.makeText(context, "UPDATE: FAILED ...", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(context, "UPDATE: DONE ...", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     public Cursor readAllData(){
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME;

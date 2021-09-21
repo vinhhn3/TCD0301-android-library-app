@@ -1,6 +1,8 @@
 package com.example.tcd0301_book_library;
 
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -24,10 +26,22 @@ public class UpdateActivity extends AppCompatActivity {
         pagesInput = findViewById(R.id.pages_input_update);
         updateButton = findViewById(R.id.button_update);
 
-        getandSetIntentData();
+        getAndSetIntentData();
+
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatabaseHelper db = new DatabaseHelper(UpdateActivity.this);
+                title = titleInput.getText().toString().trim();
+                author = authorInput.getText().toString().trim();
+                pages = pagesInput.getText().toString().trim();
+
+                db.updateBook(id, title, author, pages);
+            }
+        });
     }
 
-    void getandSetIntentData() {
+    void getAndSetIntentData() {
         if (getIntent().hasExtra("id")
                 && getIntent().hasExtra("title")
                 && getIntent().hasExtra("author")
