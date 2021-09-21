@@ -1,5 +1,6 @@
 package com.example.tcd0301_book_library;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -18,11 +19,12 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     FloatingActionButton add_button;
-
+    Activity activity;
     DatabaseHelper db;
     ArrayList<String> bookId, bookTitle, bookAuthor, bookPages;
 
     CustomAdapter customAdapter;
+
 
 
     @Override
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, AddActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,1);
             }
         });
 
