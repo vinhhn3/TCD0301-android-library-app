@@ -56,7 +56,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void updateBook(String row_id, String title, String author, String pages) {
+    public void updateBook(String rowId, String title, String author, String pages) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_AUTHOR, author);
@@ -67,7 +67,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 TABLE_NAME,
                 contentValues,
                 "_id = ?",
-                new String[]{row_id});
+                new String[]{rowId});
 
         if (result == -1) {
             Toast.makeText(context, "UPDATE: FAILED ...", Toast.LENGTH_SHORT).show();
@@ -86,5 +86,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         return cursor;
+    }
+
+    public void deleteOneRow(String rowId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        long result = db.delete(TABLE_NAME, "_id = ?", new String[]{rowId});
+        if (result == -1){
+            Toast.makeText(context, "Delete failed !!!", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Toast.makeText(context, "Deleted done !!!", Toast.LENGTH_SHORT).show();
+        }
     }
 }
