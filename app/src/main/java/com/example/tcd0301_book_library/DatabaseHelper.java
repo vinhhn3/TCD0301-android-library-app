@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-    private Context context;
     private static final String DATABASE_NAME = "BookLibrary.db";
     private static final int DATABASE_VERSION = 1;
     private static final String TABLE_NAME = "my_library";
@@ -16,8 +15,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_TITLE = "book_title";
     private static final String COLUMN_AUTHOR = "book_author";
     private static final String COLUMN_PAGES = "book_pages";
+    private Context context;
 
-    public DatabaseHelper(Context context){
+    public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
     }
@@ -25,11 +25,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String query =
-            "CREATE TABLE " + TABLE_NAME +
-                " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_TITLE + " TEXT, " +
-                COLUMN_AUTHOR + " TEXT, " +
-                COLUMN_PAGES + " INTEGER);";
+                "CREATE TABLE " + TABLE_NAME + " (" +
+                        COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COLUMN_TITLE + " TEXT, " +
+                        COLUMN_AUTHOR + " TEXT, " +
+                        COLUMN_PAGES + " INTEGER);";
 
         db.execSQL(query);
     }
@@ -40,24 +40,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void addBook(String title, String author, int pages){
+    public void addBook(String title, String author, int pages) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_TITLE, title);
         contentValues.put(COLUMN_AUTHOR, author);
         contentValues.put(COLUMN_PAGES, pages);
 
-        long result = db.insert(TABLE_NAME,null, contentValues);
+        long result = db.insert(TABLE_NAME, null, contentValues);
 
-        if (result == -1){
+        if (result == -1) {
             Toast.makeText(context, "INSERT: FAILED ...", Toast.LENGTH_SHORT).show();
-        }
-        else{
+        } else {
             Toast.makeText(context, "INSERT: DONE ...", Toast.LENGTH_SHORT).show();
         }
     }
 
-    public void updateBook(String row_id, String title, String author, String pages){
+    public void updateBook(String row_id, String title, String author, String pages) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_AUTHOR, author);
@@ -70,20 +69,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "_id = ?",
                 new String[]{row_id});
 
-        if (result == -1){
+        if (result == -1) {
             Toast.makeText(context, "UPDATE: FAILED ...", Toast.LENGTH_SHORT).show();
-        }
-        else{
+        } else {
             Toast.makeText(context, "UPDATE: DONE ...", Toast.LENGTH_SHORT).show();
         }
     }
 
-    public Cursor readAllData(){
+    public Cursor readAllData() {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME;
 
         Cursor cursor = null;
-        if (db != null){
+        if (db != null) {
             cursor = db.rawQuery(query, null);
         }
 
